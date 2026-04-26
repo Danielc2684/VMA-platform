@@ -5,7 +5,6 @@ import { ArrowLeft, Edit, Send, Plus } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 import { StatusBadge } from '@/components/admin/StatusBadge'
 import { ClientProfileTabs } from '@/components/admin/client-tabs/ClientProfileTabs'
-import type { Prisma } from '@prisma/client'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -53,22 +52,6 @@ export default async function ClientProfilePage({ params }: PageProps): Promise<
   if (!org) notFound()
 
   const initials = org.name.charAt(0).toUpperCase()
-
-  // Cast to the exact payload type expected by ClientProfileTabs
-  type OrgPayload = Prisma.OrganizationGetPayload<{
-    include: {
-      members: true
-      leads: true
-      documents: { include: { template: { select: { name: true } } } }
-      proposals: true
-      invoices: true
-      reports: true
-      assets: true
-      onboarding: { include: { steps: true } }
-      requests: { include: { submittedBy: { select: { fullName: true; email: true } } } }
-      appointments: true
-    }
-  }>
 
   return (
     <div className="space-y-6 max-w-7xl">
@@ -162,7 +145,7 @@ export default async function ClientProfilePage({ params }: PageProps): Promise<
       </div>
 
       {/* Tabs */}
-      <ClientProfileTabs org={org as OrgPayload} auditLogs={auditLogs} />
+      <ClientProfileTabs org={org} auditLogs={auditLogs} />
     </div>
   )
 }

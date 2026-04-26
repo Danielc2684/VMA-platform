@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Prisma } from '@prisma/client'
+import type { prisma } from '@/lib/prisma'
 import { OverviewTab } from './OverviewTab'
 import { DocumentsTab } from './DocumentsTab'
 import { OnboardingTab } from './OnboardingTab'
@@ -12,7 +12,7 @@ import { ReportsTab } from './ReportsTab'
 import { CommunicationsTab } from './CommunicationsTab'
 import { HistoryTab } from './HistoryTab'
 
-export type OrgWithRelations = Prisma.OrganizationGetPayload<{
+export type OrgWithRelations = NonNullable<Awaited<ReturnType<typeof prisma.organization.findUnique<{
   include: {
     members: true
     leads: true
@@ -25,11 +25,11 @@ export type OrgWithRelations = Prisma.OrganizationGetPayload<{
     requests: { include: { submittedBy: { select: { fullName: true; email: true } } } }
     appointments: true
   }
-}>
+}>>>>
 
-export type AuditLogEntry = Prisma.AuditLogGetPayload<{
+export type AuditLogEntry = Awaited<ReturnType<typeof prisma.auditLog.findMany<{
   include: { actor: { select: { fullName: true; email: true } } }
-}>
+}>>>[number]
 
 interface ClientProfileTabsProps {
   org: OrgWithRelations

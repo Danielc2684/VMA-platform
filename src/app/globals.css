@@ -1,26 +1,317 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* ─────────────────────────────────────────────
+   VMA COLOR SYSTEM
+   ───────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ── VMA brand palette ── */
+  --vma-black:         #050810;
+  --vma-dark:          #0A0F1E;
+  --vma-surface:       #111827;
+  --vma-surface-2:     #1A2235;
+  --vma-border:        rgba(255,255,255,0.06);
+  --vma-border-bright: rgba(255,255,255,0.12);
+
+  --vma-violet:        #8B5CF6;
+  --vma-violet-light:  #C084FC;
+  --vma-blue:          #5B8DEF;
+  --vma-violet-dim:    rgba(139,92,246,0.15);
+
+  --vma-magenta:       #E879F9;
+  --vma-pink:          #F472B6;
+  --vma-magenta-dim:   rgba(232,121,249,0.15);
+
+  --vma-cyan:          #00D4FF;
+  --vma-green:         #00FF88;
+  --vma-red:           #FF3B5C;
+
+  --vma-text:          #F0F4FF;
+  --vma-text-muted:    #6B7A99;
+  --vma-text-dim:      #3D4A6B;
+
+  --vma-gradient-brand:  linear-gradient(135deg, #5B8DEF 0%, #8B5CF6 50%, #C084FC 100%);
+  --vma-gradient-accent: linear-gradient(135deg, #8B5CF6 0%, #E879F9 100%);
+  --vma-gradient-dark:   linear-gradient(180deg, #050810 0%, #0A0F1E 100%);
+
+  --vma-glow-violet:  0 0 40px rgba(139,92,246,0.25), 0 0 80px rgba(139,92,246,0.1);
+  --vma-glow-magenta: 0 0 40px rgba(232,121,249,0.25);
+
+  /* ── shadcn token overrides — VMA dark theme ── */
+  --background:              #0A0F1E;
+  --foreground:              #F0F4FF;
+  --card:                    #111827;
+  --card-foreground:         #F0F4FF;
+  --popover:                 #111827;
+  --popover-foreground:      #F0F4FF;
+  --primary:                 #8B5CF6;
+  --primary-foreground:      #F0F4FF;
+  --secondary:               #1A2235;
+  --secondary-foreground:    #F0F4FF;
+  --muted:                   #1A2235;
+  --muted-foreground:        #6B7A99;
+  --accent:                  rgba(139,92,246,0.15);
+  --accent-foreground:       #F0F4FF;
+  --destructive:             #FF3B5C;
+  --destructive-foreground:  #F0F4FF;
+  --border:                  rgba(255,255,255,0.06);
+  --input:                   rgba(255,255,255,0.06);
+  --ring:                    #8B5CF6;
+  --radius:                  0.5rem;
+
+  --chart-1: #8B5CF6;
+  --chart-2: #E879F9;
+  --chart-3: #5B8DEF;
+  --chart-4: #00D4FF;
+  --chart-5: #00FF88;
+
+  --sidebar:                      #0A0F1E;
+  --sidebar-foreground:           #F0F4FF;
+  --sidebar-primary:              #8B5CF6;
+  --sidebar-primary-foreground:   #F0F4FF;
+  --sidebar-accent:               rgba(139,92,246,0.15);
+  --sidebar-accent-foreground:    #F0F4FF;
+  --sidebar-border:               rgba(255,255,255,0.06);
+  --sidebar-ring:                 #8B5CF6;
 }
 
+/* dark class also maps to same VMA values — we force dark mode */
+.dark {
+  --background:              #0A0F1E;
+  --foreground:              #F0F4FF;
+  --card:                    #111827;
+  --card-foreground:         #F0F4FF;
+  --popover:                 #111827;
+  --popover-foreground:      #F0F4FF;
+  --primary:                 #8B5CF6;
+  --primary-foreground:      #F0F4FF;
+  --secondary:               #1A2235;
+  --secondary-foreground:    #F0F4FF;
+  --muted:                   #1A2235;
+  --muted-foreground:        #6B7A99;
+  --accent:                  rgba(139,92,246,0.15);
+  --accent-foreground:       #F0F4FF;
+  --destructive:             #FF3B5C;
+  --destructive-foreground:  #F0F4FF;
+  --border:                  rgba(255,255,255,0.06);
+  --input:                   rgba(255,255,255,0.06);
+  --ring:                    #8B5CF6;
+  --chart-1: #8B5CF6;
+  --chart-2: #E879F9;
+  --chart-3: #5B8DEF;
+  --chart-4: #00D4FF;
+  --chart-5: #00FF88;
+  --sidebar:                      #0A0F1E;
+  --sidebar-foreground:           #F0F4FF;
+  --sidebar-primary:              #8B5CF6;
+  --sidebar-primary-foreground:   #F0F4FF;
+  --sidebar-accent:               rgba(139,92,246,0.15);
+  --sidebar-accent-foreground:    #F0F4FF;
+  --sidebar-border:               rgba(255,255,255,0.06);
+  --sidebar-ring:                 #8B5CF6;
+}
+
+/* ─────────────────────────────────────────────
+   TAILWIND v4 THEME EXTENSION
+   ───────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* VMA colors */
+  --color-vma-black:         var(--vma-black);
+  --color-vma-dark:          var(--vma-dark);
+  --color-vma-surface:       var(--vma-surface);
+  --color-vma-surface-2:     var(--vma-surface-2);
+  --color-vma-border:        var(--vma-border);
+  --color-vma-border-bright: var(--vma-border-bright);
+  --color-vma-violet:        var(--vma-violet);
+  --color-vma-violet-light:  var(--vma-violet-light);
+  --color-vma-blue:          var(--vma-blue);
+  --color-vma-violet-dim:    var(--vma-violet-dim);
+  --color-vma-magenta:       var(--vma-magenta);
+  --color-vma-pink:          var(--vma-pink);
+  --color-vma-magenta-dim:   var(--vma-magenta-dim);
+  --color-vma-cyan:          var(--vma-cyan);
+  --color-vma-green:         var(--vma-green);
+  --color-vma-red:           var(--vma-red);
+  --color-vma-text:          var(--vma-text);
+  --color-vma-text-muted:    var(--vma-text-muted);
+  --color-vma-text-dim:      var(--vma-text-dim);
+
+  /* shadcn design tokens */
+  --color-background:              var(--background);
+  --color-foreground:              var(--foreground);
+  --color-card:                    var(--card);
+  --color-card-foreground:         var(--card-foreground);
+  --color-popover:                 var(--popover);
+  --color-popover-foreground:      var(--popover-foreground);
+  --color-primary:                 var(--primary);
+  --color-primary-foreground:      var(--primary-foreground);
+  --color-secondary:               var(--secondary);
+  --color-secondary-foreground:    var(--secondary-foreground);
+  --color-muted:                   var(--muted);
+  --color-muted-foreground:        var(--muted-foreground);
+  --color-accent:                  var(--accent);
+  --color-accent-foreground:       var(--accent-foreground);
+  --color-destructive:             var(--destructive);
+  --color-destructive-foreground:  var(--destructive-foreground);
+  --color-border:                  var(--border);
+  --color-input:                   var(--input);
+  --color-ring:                    var(--ring);
+  --color-chart-1:                 var(--chart-1);
+  --color-chart-2:                 var(--chart-2);
+  --color-chart-3:                 var(--chart-3);
+  --color-chart-4:                 var(--chart-4);
+  --color-chart-5:                 var(--chart-5);
+  --color-sidebar:                 var(--sidebar);
+  --color-sidebar-foreground:      var(--sidebar-foreground);
+  --color-sidebar-primary:         var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent:          var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border:          var(--sidebar-border);
+  --color-sidebar-ring:            var(--sidebar-ring);
+
+  /* Font families */
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'Plus Jakarta Sans', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+  --font-sans:    'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'Syne', sans-serif;
+
+  /* Border radius */
+  --radius-sm:  calc(var(--radius) - 4px);
+  --radius-md:  calc(var(--radius) - 2px);
+  --radius-lg:  var(--radius);
+  --radius-xl:  calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ─────────────────────────────────────────────
+   ANIMATED GRADIENT BORDER
+   ───────────────────────────────────────────── */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ─────────────────────────────────────────────
+   UTILITY CLASSES
+   ───────────────────────────────────────────── */
+
+/* Subtle 40×40 grid mesh background */
+.grid-mesh {
+  background-image:
+    linear-gradient(rgba(139,92,246,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,92,246,0.015) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* CSS noise grain overlay */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  z-index: 9999;
+}
+
+/* Glow utilities */
+.glow-violet {
+  box-shadow: var(--vma-glow-violet);
+}
+
+.glow-magenta {
+  box-shadow: var(--vma-glow-magenta);
+}
+
+/* Animated gradient border — premium card effect */
+.gradient-border {
+  position: relative;
+  border-radius: var(--radius);
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: calc(var(--radius) + 1px);
+  padding: 1px;
+  background: conic-gradient(from var(--angle), #5B8DEF, #8B5CF6, #E879F9, #8B5CF6, #5B8DEF);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-spin 4s linear infinite;
+  pointer-events: none;
+}
+@keyframes border-spin {
+  to { --angle: 360deg; }
+}
+
+/* ─────────────────────────────────────────────
+   BASE LAYER
+   ───────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply font-sans;
+  }
+
+  body {
+    background-color: var(--vma-dark);
+    color: var(--vma-text);
+    font-family: var(--font-body);
+    min-height: 100dvh;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--vma-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--vma-surface-2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vma-text-dim);
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--vma-violet);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background: var(--vma-violet-dim);
+  color: var(--vma-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
